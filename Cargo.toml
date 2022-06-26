@@ -28,6 +28,8 @@ wee_alloc = { version = "0.4.5", optional = true }
 
 base64ct = "1.5.0"
 aes-gcm = "0.9.4"
+hmac = "0.12.1"
+sha2 = "0.10.2"
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3.13"

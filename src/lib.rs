@@ -1,6 +1,8 @@
 use aes_gcm::{Aes128Gcm, Aes256Gcm, Key, Nonce};
 use aes_gcm::aead::{AeadInPlace, NewAead};
 use base64ct::{Base64, Encoding};
+use hmac::{Hmac, Mac};
+use sha2::Sha256;
 use wasm_bindgen::prelude::*;
 
 mod utils;
@@ -10,6 +12,8 @@ mod utils;
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+
+type HmacSha256 = Hmac<Sha256>;
 
 const BUF_SIZE: usize = 1024;
 
@@ -83,4 +87,23 @@ pub fn aes256gcm_decrypt(key_slice: &[u8], nonce_slice: &[u8], aad_slice: &[u8],
     cipher.decrypt_in_place(nonce, aad_slice, &mut buffer).expect("decryption failure!");
 
     buffer.to_vec()
+}
+
+#[wasm_bindgen]
+pub fn hmac_sha256_sign(key_slice: &[u8], data_slice: &[u8]) -> Vec<u8> {
+    let mut mac = HmacSha256::new_from_slice(key_slice)
+        .expect("HMAC can take key of any size");
+    mac.update(data_slice);
+    mac.finalize().into_bytes().to_vec()
+}
+
+#[wasm_bindgen]
+pub fn hmac_sha256_verify(key_slice: &[u8], data_slice: &[u8], signature_slice: &[u8]) -> bool {
+    let mut mac = HmacSha256::new_from_slice(key_slice)
+        .expect("HMAC can take key of any size");
+    mac.update(data_slice);
+    match mac.verify_slice(signature_slice) {
+        Ok(_) => true,
+        Err(_) => false,
+    }
 }
