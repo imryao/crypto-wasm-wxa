@@ -1,4 +1,4 @@
-use aes_gcm_siv::{Aes128GcmSiv, Aes256GcmSiv, Key, Nonce};
+use aes_gcm_siv::{Aes128GcmSiv, Key, Nonce};
 use aes_gcm_siv::aead::{AeadInPlace, NewAead};
 use base64ct::{Base64, Base64Url, Encoding};
 use hmac::{Hmac, Mac};
