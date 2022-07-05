@@ -15,7 +15,7 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 type HmacSha256 = Hmac<Sha256>;
 
-const BUF_SIZE: usize = 1024;
+const BUF_SIZE: usize = 65536;
 
 #[wasm_bindgen]
 pub fn base16_encode(src: &[u8]) -> String {
@@ -60,7 +60,7 @@ pub fn aes128gcm_siv_encrypt(key_slice: &[u8], nonce_slice: &[u8], aad_slice: &[
 
     let nonce = Nonce::from_slice(nonce_slice);
 
-    let mut buffer: aes_gcm_siv::aead::heapless::Vec<u8, 128> = aes_gcm_siv::aead::heapless::Vec::new();
+    let mut buffer: aes_gcm_siv::aead::heapless::Vec<u8, BUF_SIZE> = aes_gcm_siv::aead::heapless::Vec::new();
     buffer.extend_from_slice(plaintext_slice);
 
     cipher.encrypt_in_place(nonce, aad_slice, &mut buffer).expect("encryption failure!");
@@ -75,7 +75,7 @@ pub fn aes128gcm_siv_decrypt(key_slice: &[u8], nonce_slice: &[u8], aad_slice: &[
 
     let nonce = Nonce::from_slice(nonce_slice);
 
-    let mut buffer: aes_gcm_siv::aead::heapless::Vec<u8, 128> = aes_gcm_siv::aead::heapless::Vec::new();
+    let mut buffer: aes_gcm_siv::aead::heapless::Vec<u8, BUF_SIZE> = aes_gcm_siv::aead::heapless::Vec::new();
     buffer.extend_from_slice(ciphertext_slice);
 
     cipher.decrypt_in_place(nonce, aad_slice, &mut buffer).expect("decryption failure!");
