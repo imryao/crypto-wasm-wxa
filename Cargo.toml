@@ -8,7 +8,7 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [features]
-default = ["console_error_panic_hook", "aes-gcm-siv/heapless"]
+default = ["console_error_panic_hook", "base64ct/alloc"]
 
 [dependencies]
 wasm-bindgen = "0.2.81"
@@ -26,11 +26,8 @@ console_error_panic_hook = { version = "0.1.7", optional = true }
 # Unfortunately, `wee_alloc` requires nightly Rust when targeting wasm for now.
 wee_alloc = { version = "0.4.5", optional = true }
 
-base16ct = "0.1.1"
 base64ct = "1.5.1"
 aes-gcm-siv = "0.10.3"
-hmac = "0.12.1"
-sha2 = "0.10.2"
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3.31"
