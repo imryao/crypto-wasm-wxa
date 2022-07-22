@@ -1,6 +1,5 @@
 use aes_gcm_siv::{Aes128GcmSiv, Key, Nonce};
 use aes_gcm_siv::aead::{Aead, NewAead, Payload};
-use base64ct::{Base64, Encoding};
 use wasm_bindgen::prelude::*;
 
 mod utils;
@@ -10,16 +9,6 @@ mod utils;
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
-
-#[wasm_bindgen]
-pub fn base64_encode(input: &[u8]) -> String {
-    Base64::encode_string(input)
-}
-
-#[wasm_bindgen]
-pub fn base64_decode(input: &str) -> Vec<u8> {
-    Base64::decode_vec(input).unwrap()
-}
 
 #[wasm_bindgen]
 pub fn aes128gcm_siv_encrypt(key_slice: &[u8], nonce_slice: &[u8], aad_slice: &[u8], plaintext_slice: &[u8]) -> Vec<u8> {
