@@ -11,7 +11,7 @@ crate-type = ["cdylib", "rlib"]
 default = ["console_error_panic_hook"]
 
 [dependencies]
-wasm-bindgen = "0.2.82"
+wasm-bindgen = "0.2.83"
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
@@ -29,7 +29,7 @@ wee_alloc = { version = "0.4.5", optional = true }
 aes-gcm-siv = { version = "0.11.1", default-features = false, features = ["aes", "alloc"] }
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3.31"
+wasm-bindgen-test = "0.3.33"
 
 [profile.release]
 # Tell `rustc` to optimize for small code size.
