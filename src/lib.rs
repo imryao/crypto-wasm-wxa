@@ -2,7 +2,7 @@ use aes_gcm_siv::{
     aead::{Aead, KeyInit, Payload},
     Aes128GcmSiv, Nonce,
 };
-use p256::{EncodedPoint, PublicKey, ecdh::EphemeralSecret, ecdsa::{Signature, VerifyingKey, signature::Verifier}};
+use p256::{EncodedPoint, PublicKey, ecdh::EphemeralSecret, ecdsa::{Signature, VerifyingKey, signature::Verifier}, elliptic_curve::sec1::FromEncodedPoint};
 use rand::{SeedableRng, rngs::StdRng};
 use sha2::Sha256;
 use wasm_bindgen::prelude::*;
@@ -32,10 +32,12 @@ pub fn aes128gcm_siv_decrypt(key_slice: &[u8], nonce_slice: &[u8], aad_slice: &[
 }
 
 #[wasm_bindgen]
-pub fn generate_secret(seed: &[u8], server_pk_bytes: &[u8], info: &[u8]) -> Vec<u8> {
-    let server_pk = PublicKey::from_sec1_bytes(server_pk_bytes).unwrap();
-
+pub fn generate_secret(seed: &[u8], x: &[u8], y: &[u8], info: &[u8]) -> Vec<u8> {
     let mut rng = StdRng::from_seed(seed.try_into().unwrap());
+
+    let server_point = EncodedPoint::from_affine_coordinates(x.into(), y.into(), false);
+    let server_pk = PublicKey::from_encoded_point(&server_point).unwrap();
+
     let client_secret = EphemeralSecret::random(&mut rng);
     let client_point = EncodedPoint::from(client_secret.public_key());
 
