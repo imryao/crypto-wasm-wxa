@@ -27,7 +27,7 @@ wasm-bindgen = "0.2.83"
 wee_alloc = { version = "0.4.5", optional = true }
 
 aes-gcm-siv = { version = "0.11.1", default-features = false, features = ["aes", "alloc"] }
-p256 = { version = "0.11.1", default-features = false, features = ["ecdh", "ecdsa"] }
+p256 = { version = "0.13.0", default-features = false, features = ["ecdh", "ecdsa"] }
 rand = { version = "0.8.5", default-features = false, features = ["std_rng"] }
 sha2 = { version = "0.10.6", default-features = false }
 
